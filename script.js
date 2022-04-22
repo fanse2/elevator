@@ -2,14 +2,14 @@ import {ARROW_UP, ARROW_DOWN} from './sprites.js'
 
 console.log(ARROW_UP)
 console.log(ARROW_DOWN)
-const startButton = document.querySelector('#start')
+const upButton = document.querySelector('#up')
+const downButton = document.querySelector('#down')
 const dots = document.querySelectorAll('.dot')
 
-const sprite = ARROW_UP
-
-const FRM = sprite.length
-
+let sprite = ARROW_UP
+let frm = sprite.length
 let frameNo = 0
+let timeout
 
 let flatSprite = []
 sprite.forEach(s=>flatSprite.push(s.flat()))
@@ -22,9 +22,9 @@ function clearScreen(){
     })
 }
 
-const up = e => {
+const play = () => {
     let i = 0
-    let no = frameNo % FRM
+    let no = frameNo % frm
     // console.log(frameNo)
     clearScreen()
 
@@ -36,8 +36,32 @@ const up = e => {
 
     })
     frameNo++
-    setTimeout(up,500)
+    timeout = setTimeout(play,500)
 }
 
-startButton.addEventListener('click', up)
+const up = e => {
+    sprite = ARROW_UP
+    frm = sprite.length
+    frameNo = 0
+    flatSprite = []
+    sprite.forEach(s=>flatSprite.push(s.flat()))
+    clearTimeout(timeout)
+
+    play()
+
+}
+
+const down = e => {
+    sprite = ARROW_DOWN
+    frm = sprite.length
+    frameNo = 0
+    flatSprite = []
+    sprite.forEach(s=>flatSprite.push(s.flat()))
+    clearTimeout(timeout)
+
+    play()
+}
+
+upButton.addEventListener('click', up)
+downButton.addEventListener('click', down)
 
